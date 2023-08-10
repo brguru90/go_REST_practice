@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
@@ -60,7 +61,8 @@ func g_test_req_bind(c *gin.Context) {
 func Gin_server() {
 	main_router := gin.Default()
 
-	main_router.StaticFS("/t", http.Dir("./static"))
+	// main_router.StaticFS("/", gin.Dir("./static", true))
+	main_router.Use(static.Serve("/", static.LocalFile("./static", true)))
 
 	middleware := func(c *gin.Context) {
 		fmt.Println("in middleware", c.Request.RequestURI)
